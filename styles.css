@@ -1,0 +1,83 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #00002A;
+}
+
+.header {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 20vh;
+    color: white;
+}
+.Option{
+    color: white;
+    margin-top:4vh;
+    display: flex;
+    justify-content: space-between ;
+    gap: 1rem;
+}
+.Name{
+    font-size: 3rem;
+    text-align: center;
+    margin: 0;
+}
+.button{
+    background-color: #00002A;
+    height: 3rem;
+    width: 8rem;
+    font-size: 1rem;
+    border: 2px solid White;
+    color: white;
+    border-radius: 10px;
+}
+.button:hover {
+    background-color: #00006f;
+
+}
+@media (min-width: 1024px) {
+    .Randomizer {
+        margin-left: 20%; /* Margin is applied only for large screens */
+    }
+
+    .dropdown {
+        margin-right: 20%; /* Margin is applied only for large screens */
+    }
+}
+.slider {
+    pointer-events: auto;
+}
+
+
+.dropdown option {
+    padding: 12px;
+    font-size: 16px;
+}
+
+.sliderValue{
+    margin-top: -0.25rem;
+    text-align: center;
+}
+.Array{
+    text-align: center;
+}
+li{
+    display: inline-block;
+    background-color: #39FF14;
+    color: black;
+    width: 0.5vw;
+    border: 1px solid black;
+}
+*#ArrayBars {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0;
+    align-items: flex-end;
+}
+.SortButton {
+    text-align: center;
+    margin-top: 2rem;
+
+}
+

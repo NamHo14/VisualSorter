@@ -1,10 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="styles.css" rel="stylesheet"/>
 </head>
 <body>
-$END$
+
+    <div class="header">
+        <!-- Page Title -->
+        <h1 class="Name" >Sorting Visualizer</h1>
+
+        <!-- Interative option -->
+        <div class="Option">
+
+            <!-- Button to generate random array -->
+            <div class="Randomizer">
+                <button class="button" id="GenerateNewRandomArray">New Random Array</button>
+            </div>
+
+            <!-- slider to modify size -->
+            <div class="Slider">
+                <label for="myRange" >Size</label><br>
+                <input type="range" min="0" max="100" value="0" class="slider" id="myRange">
+                <p id="sliderValue" class="sliderValue">0</p>
+            </div>
+
+            <!--slider to modify speed -->
+            <div class="Slider">
+                <label for="myRange2" >Speed</label><br>
+                <input type="range" min="0" max="100" value="0" class="slider" id="myRange2">
+                <p id="sliderValue2" class="sliderValue">1</p>
+            </div>
+
+            <!--dropdown to choose sorting algorithm-->
+            <div class="dropdown">
+                <label for="dropDownValue">Sorting Algorithm</label><br>
+                <select id="dropDownValue" name="referrer">
+                    <option value="1">Bubble Sort</option>
+                    <option value="2">Selection Sort</option>
+                    <option value="3">Insertion Sort</option>
+                    <option value="4">Quick Sort</option>
+                    <option value="5">Shell Sort</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- list of bars -->
+        <div>
+            <ul id="ArrayBars">
+            </ul>
+        </div>
+
+        <!--button to sort -->
+        <div class="SortButton">
+            <button class="button" id="sortButton">SORT</button>
+        </div>
+
+        <!--Numbers of array -->
+        <div class="Array">Numbers:
+            <div id="ArrayNumbers"></div>
+        </div>
+    </div>
+
+    <!--Javascript -->
+    <script src="./Java.js"></script>
+    <script src="./SortingAlgorithms.js"></script>
 </body>
 </html>
