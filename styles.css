@@ -148,17 +148,10 @@ body {
 .bars-card {
     margin-top: 1rem;
     padding: 1rem;
-    overflow: hidden;
-}
-
-.bars-stage {
-    height: clamp(220px, 36vw, 380px);
-    overflow: hidden;
-    border-radius: 8px;
 }
 
 #ArrayBars {
-    height: 100%;
+    height: clamp(200px, 36vw, 360px);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -172,7 +165,9 @@ body {
 li {
     display: inline-block;
     background-color: #39FF14;
-    width: clamp(4px, 0.5vw, 10px);
+    flex: 1 1 0;
+    min-width: 1px;
+    max-width: 10px;
     border: 1px solid black;
     border-radius: 3px 3px 0 0;
 }

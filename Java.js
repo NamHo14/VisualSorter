@@ -68,9 +68,9 @@ function updateBars(Array, comparing1= -1, comparing2 = -1) {
       li.style.border = "1px solid White";
     }
 
-    // Clamp each bar to [0,100] so bars always remain inside the chart viewport.
-    const boundedHeight = Math.max(0, Math.min(Array[i], 100));
-    li.style.height = boundedHeight + "%";
+    // Normalize values so 100 always maps to full chart height.
+    const value = Math.max(0, Math.min(Array[i], 100));
+    li.style.height = (value / 100) * 100 + "%";
     ul.appendChild(li)
   }
 }
