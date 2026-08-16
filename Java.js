@@ -1,7 +1,11 @@
 const slider = document.getElementById("myRange");
 const slider2 = document.getElementById("myRange2");
+const dropDownValue = document.getElementById("dropDownValue");
 const sliderValue = document.getElementById("sliderValue");
 const sliderValue2 = document.getElementById("sliderValue2");
+const algoName = document.getElementById("algoName");
+const algoComplexity = document.getElementById("algoComplexity");
+const sortStatus = document.getElementById("sortStatus");
 var audio = new Audio("")
 let size = 0;
 let speed =100;
@@ -9,6 +13,22 @@ ul = document.getElementById('ArrayBars')
 myArray = []
 let audioCtx=null
 let mul = 4
+
+const algorithmInfo = {
+  "1": { name: "Bubble Sort", complexity: "Time: O(n^2) | Space: O(1)" },
+  "2": { name: "Selection Sort", complexity: "Time: O(n^2) | Space: O(1)" },
+  "3": { name: "Insertion Sort", complexity: "Time: O(n^2) avg | Space: O(1)" },
+  "4": { name: "Quick Sort", complexity: "Time: O(n log n) avg | Space: O(log n)" },
+  "5": { name: "Shell Sort", complexity: "Time: depends on gap seq | Space: O(1)" },
+  "6": { name: "Merge Sort", complexity: "Time: O(n log n) | Space: O(n)" },
+  "7": { name: "Heap Sort", complexity: "Time: O(n log n) | Space: O(1)" }
+};
+
+function refreshAlgorithmMeta() {
+  const selected = algorithmInfo[dropDownValue.value] || algorithmInfo["1"];
+  algoName.textContent = selected.name;
+  algoComplexity.textContent = selected.complexity;
+}
 
 function playSound(frequency) {
   if (audioCtx == null) {
@@ -59,6 +79,12 @@ async function pause(ms){
 
 //Assigning the number to arrayNumbers
 document.getElementById("ArrayNumbers").innerHTML = myArray.join(" ");
+refreshAlgorithmMeta();
+
+dropDownValue.addEventListener("change", function() {
+  refreshAlgorithmMeta();
+  sortStatus.textContent = "Ready";
+});
 
 //to be able to grab the value of the size slider
 slider.addEventListener("input", function() {
@@ -90,6 +116,7 @@ document.getElementById("GenerateNewRandomArray").addEventListener("click", func
   }
   document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
   updateBars(myArrayRandom);
+  sortStatus.textContent = "Ready";
 })
 
 
@@ -97,37 +124,55 @@ document.getElementById("GenerateNewRandomArray").addEventListener("click", func
 //when button clicked sorting commence
 document.getElementById("sortButton").addEventListener("click", async function(){
 
+  if (myArrayRandom.length === 0){
+    sortStatus.textContent = "Generate an array first";
+    return;
+  }
+
   document.getElementById("myRange").disabled = true;
   document.getElementById("GenerateNewRandomArray").disabled = true;
   document.getElementById("sortButton").disabled = true;
   document.getElementById("dropDownValue").disabled = true;
+  sortStatus.textContent = "Sorting...";
 
-  if (document.getElementById("dropDownValue").value== "1"){
+  if (dropDownValue.value== "1"){
     myArrayRandom = await BubbleSort(myArrayRandom)
     document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
   }
 
-  if (document.getElementById("dropDownValue").value== "2"){
+  if (dropDownValue.value== "2"){
     myArrayRandom = await SelectionSort(myArrayRandom)
     document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
   }
 
 
-  if (document.getElementById("dropDownValue").value== "3"){
+  if (dropDownValue.value== "3"){
     myArrayRandom = await InsertionSort(myArrayRandom)
     document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
   }
 
-  if (document.getElementById("dropDownValue").value== "4"){
+  if (dropDownValue.value== "4"){
     myArrayRandom = await QuickSort(myArrayRandom)
     document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
   }
 
 
-  if (document.getElementById("dropDownValue").value== "5"){
+  if (dropDownValue.value== "5"){
     myArrayRandom = await ShellSort(myArrayRandom)
     document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
   }
+
+  if (dropDownValue.value== "6"){
+    myArrayRandom = await MergeSort(myArrayRandom)
+    document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
+  }
+
+  if (dropDownValue.value== "7"){
+    myArrayRandom = await HeapSort(myArrayRandom)
+    document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
+  }
+
+  sortStatus.textContent = "Done";
 
 
 })

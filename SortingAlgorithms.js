@@ -105,8 +105,15 @@ async function InsertionSort(Array){
 }
 
 //QuickSort algorithm
-async function QuickSort(Array,start = 0, fullArray=myArrayRandom){
+async function QuickSort(Array,start = 0, fullArray=myArrayRandom, isTopLevel = true){
   if(Array.length<2){
+    if (isTopLevel){
+      updateBars(fullArray);
+      document.getElementById("myRange").disabled = false;
+      document.getElementById("GenerateNewRandomArray").disabled = false;
+      document.getElementById("sortButton").disabled = false;
+      document.getElementById("dropDownValue").disabled = false;
+    }
     return Array
   }
   let middle = Math.floor(Array.length/2)
@@ -134,8 +141,8 @@ async function QuickSort(Array,start = 0, fullArray=myArrayRandom){
       pivots.push(Array[i]);
     }
   }
-  let leftSide = await QuickSort(left,start, fullArray);
-  let rightSide = await QuickSort(right, start+leftSide.length+pivots.length, fullArray);
+  let leftSide = await QuickSort(left,start, fullArray, false);
+  let rightSide = await QuickSort(right, start+leftSide.length+pivots.length, fullArray, false);
   Array = [...leftSide, ...pivots, ...rightSide]
 
   for (let i=0; i<Array.length; i++){
@@ -144,11 +151,13 @@ async function QuickSort(Array,start = 0, fullArray=myArrayRandom){
     playSound(Array[i]*mul);
     await pause(speed);
   }
-  updateBars(Array);
-  document.getElementById("myRange").disabled = false;
-  document.getElementById("GenerateNewRandomArray").disabled = false;
-  document.getElementById("sortButton").disabled = false;
-  document.getElementById("dropDownValue").disabled = false;
+  if (isTopLevel){
+    updateBars(fullArray);
+    document.getElementById("myRange").disabled = false;
+    document.getElementById("GenerateNewRandomArray").disabled = false;
+    document.getElementById("sortButton").disabled = false;
+    document.getElementById("dropDownValue").disabled = false;
+  }
   return Array;
 }
 
@@ -183,6 +192,141 @@ async function ShellSort(Array){
 
     Gap = Math.floor(Gap/2);
   }
+  updateBars(Array);
+  document.getElementById("myRange").disabled = false;
+  document.getElementById("GenerateNewRandomArray").disabled = false;
+  document.getElementById("sortButton").disabled = false;
+  document.getElementById("dropDownValue").disabled = false;
+  return Array;
+}
+
+//mergeSort algorithm
+async function MergeSort(Array){
+  if (Array.length < 2){
+    updateBars(Array);
+    document.getElementById("myRange").disabled = false;
+    document.getElementById("GenerateNewRandomArray").disabled = false;
+    document.getElementById("sortButton").disabled = false;
+    document.getElementById("dropDownValue").disabled = false;
+    return Array;
+  }
+
+  const temp = new Array(Array.length);
+
+  async function merge(low, mid, high){
+    let i = low;
+    let j = mid + 1;
+    let k = low;
+
+    while (i <= mid && j <= high){
+      updateBars(Array, i, j);
+      playSound(Array[i]*mul);
+      await pause(speed);
+
+      if (Array[i] <= Array[j]){
+        temp[k] = Array[i];
+        i++;
+      }
+      else{
+        temp[k] = Array[j];
+        j++;
+      }
+      k++;
+    }
+
+    while (i <= mid){
+      temp[k] = Array[i];
+      i++;
+      k++;
+    }
+
+    while (j <= high){
+      temp[k] = Array[j];
+      j++;
+      k++;
+    }
+
+    for (let p = low; p <= high; p++){
+      Array[p] = temp[p];
+      updateBars(Array, p);
+      playSound(Array[p]*mul);
+      await pause(speed);
+    }
+  }
+
+  async function mergeSortRec(low, high){
+    if (low >= high){
+      return;
+    }
+    const mid = Math.floor((low + high) / 2);
+    await mergeSortRec(low, mid);
+    await mergeSortRec(mid + 1, high);
+    await merge(low, mid, high);
+  }
+
+  await mergeSortRec(0, Array.length - 1);
+  updateBars(Array);
+  document.getElementById("myRange").disabled = false;
+  document.getElementById("GenerateNewRandomArray").disabled = false;
+  document.getElementById("sortButton").disabled = false;
+  document.getElementById("dropDownValue").disabled = false;
+  return Array;
+}
+
+//heapSort algorithm
+async function HeapSort(Array){
+  async function heapify(n, i){
+    let largest = i;
+    let left = 2 * i + 1;
+    let right = 2 * i + 2;
+
+    if (left < n){
+      updateBars(Array, largest, left);
+      playSound(Array[left]*mul);
+      await pause(speed);
+      if (Array[left] > Array[largest]){
+        largest = left;
+      }
+    }
+
+    if (right < n){
+      updateBars(Array, largest, right);
+      playSound(Array[right]*mul);
+      await pause(speed);
+      if (Array[right] > Array[largest]){
+        largest = right;
+      }
+    }
+
+    if (largest != i){
+      let temp = Array[i];
+      Array[i] = Array[largest];
+      Array[largest] = temp;
+
+      updateBars(Array, i, largest);
+      playSound(Array[i]*mul);
+      await pause(speed);
+
+      await heapify(n, largest);
+    }
+  }
+
+  for (let i = Math.floor(Array.length / 2) - 1; i >= 0; i--){
+    await heapify(Array.length, i);
+  }
+
+  for (let i = Array.length - 1; i > 0; i--){
+    let temp = Array[0];
+    Array[0] = Array[i];
+    Array[i] = temp;
+
+    updateBars(Array, 0, i);
+    playSound(Array[i]*mul);
+    await pause(speed);
+
+    await heapify(i, 0);
+  }
+
   updateBars(Array);
   document.getElementById("myRange").disabled = false;
   document.getElementById("GenerateNewRandomArray").disabled = false;

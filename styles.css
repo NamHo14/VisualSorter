@@ -1,83 +1,217 @@
+:root {
+    --bg: #00002a;
+    --bg-soft: #0f1248;
+    --ink: #ffffff;
+    --accent: #39ff14;
+    --line: rgba(255, 255, 255, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
     padding: 0;
     margin: 0;
-    background-color: #00002A;
-}
-
-.header {
+    min-height: 100vh;
+    color: var(--ink);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    height: 20vh;
-    color: white;
+    background: var(--bg);
 }
-.Option{
-    color: white;
-    margin-top:4vh;
-    display: flex;
-    justify-content: space-between ;
-    gap: 1rem;
+
+.app-shell {
+    width: min(1100px, 92vw);
+    margin: 0 auto;
+    padding: 2.2rem 0 2.8rem;
 }
-.Name{
-    font-size: 3rem;
+
+.hero {
     text-align: center;
+    margin-bottom: 1rem;
+}
+
+.Name {
     margin: 0;
+    letter-spacing: 0.4px;
+    font-size: clamp(2rem, 4vw, 3rem);
 }
-.button{
-    background-color: #00002A;
-    height: 3rem;
-    width: 8rem;
-    font-size: 1rem;
-    border: 2px solid White;
-    color: white;
+
+.controls-card,
+.bars-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+}
+
+.controls-card {
+    padding: 1rem;
+}
+
+.Option {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(160px, 1fr));
+    gap: 0.9rem;
+    align-items: end;
+}
+
+.control-block {
+    padding: 0.8rem;
     border-radius: 10px;
+    background: rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--line);
 }
+
+.control-block label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    font-size: 0.94rem;
+}
+
+.button {
+    background: #00002a;
+    height: 3rem;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 700;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    border-radius: 10px;
+    transition: background-color 150ms ease;
+}
+
 .button:hover {
-    background-color: #00006f;
-
+    background: #00006f;
 }
-@media (min-width: 1024px) {
-    .Randomizer {
-        margin-left: 20%; /* Margin is applied only for large screens */
-    }
 
-    .dropdown {
-        margin-right: 20%; /* Margin is applied only for large screens */
-    }
+.button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
 }
+
+.SortButton {
+    margin-top: 0.85rem;
+}
+
 .slider {
-    pointer-events: auto;
+    width: 100%;
+    accent-color: var(--accent);
 }
 
-
-.dropdown option {
-    padding: 12px;
-    font-size: 16px;
+.sliderValue {
+    margin: 0.25rem 0 0;
+    text-align: right;
+    font-weight: 700;
 }
 
-.sliderValue{
-    margin-top: -0.25rem;
-    text-align: center;
+.dropdown select {
+    width: 100%;
+    height: 2.6rem;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    padding: 0 0.7rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.95rem;
+    color: #ffffff;
+    background: #00002a;
 }
-.Array{
-    text-align: center;
-}
-li{
-    display: inline-block;
-    background-color: #39FF14;
-    color: black;
-    width: 0.5vw;
-    border: 1px solid black;
-}
-*#ArrayBars {
 
+.meta-grid {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+    gap: 0.8rem;
+}
+
+.meta-item {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0.65rem 0.8rem;
+}
+
+.meta-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.75;
+    margin-bottom: 0.25rem;
+}
+
+.meta-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.bars-card {
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
+#ArrayBars {
+    height: clamp(200px, 36vw, 360px);
     display: flex;
     flex-direction: row;
     justify-content: center;
-    padding: 0;
     align-items: flex-end;
+    gap: 1px;
+    margin: 0;
+    padding: 0;
 }
-.SortButton {
-    text-align: center;
-    margin-top: 2rem;
 
+li {
+    display: inline-block;
+    background-color: #39FF14;
+    width: clamp(4px, 0.5vw, 10px);
+    border: 1px solid black;
+    border-radius: 3px 3px 0 0;
+}
+
+.Array {
+    margin-top: 0.8rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.12);
+    padding: 0.7rem 0.75rem;
+}
+
+#ArrayNumbers {
+    margin-top: 0.25rem;
+    font-size: 0.86rem;
+    line-height: 1.35;
+    max-height: 6.5rem;
+    overflow: auto;
+    word-break: break-word;
+}
+
+@media (max-width: 900px) {
+    .Option {
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+    }
+
+    .meta-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .app-shell {
+        width: 94vw;
+        padding-top: 1.4rem;
+    }
+
+    .Option {
+        grid-template-columns: 1fr;
+    }
+
+    .control-block {
+        padding: 0.7rem;
+    }
+
+    #ArrayBars {
+        height: 56vw;
+    }
 }
 
