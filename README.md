@@ -12,7 +12,7 @@ Technologies Used: WebStorm, HTML5, CSS3, JavaScript
 
 Project Link: https://namho14.github.io/VisualSorter/Home.html 
 
-![image](https://github.com/user-attachments/assets/2c1f14cb-5459-48f5-b4e5-cdac2e884483)
+<img width="1190" height="914" alt="image" src="https://github.com/user-attachments/assets/07b4a5e8-73b4-4c96-a282-ae8b76fcc93d" />
 
-![image](https://github.com/user-attachments/assets/05c92cd5-05c6-4a37-bb4a-9c447964f618)
+
 
