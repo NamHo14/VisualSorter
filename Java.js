@@ -19,6 +19,9 @@ let cancelRequested = false
 let isSorting = false
 const SORT_CANCELLED_ERROR = "SORT_CANCELLED"
 
+// Keep STOP always clickable; cancellation logic decides whether it does anything.
+stopButton.disabled = false;
+
 const algorithmInfo = {
   "1": { name: "Bubble Sort", complexity: "Time: O(n^2) | Space: O(1)" },
   "2": { name: "Selection Sort", complexity: "Time: O(n^2) | Space: O(1)" },
@@ -40,6 +43,7 @@ function setSortingUIState(sorting) {
   document.getElementById("GenerateNewRandomArray").disabled = sorting;
   document.getElementById("sortButton").disabled = sorting;
   document.getElementById("dropDownValue").disabled = sorting;
+  stopButton.disabled = false;
 }
 
 function playSound(frequency) {
@@ -108,6 +112,7 @@ dropDownValue.addEventListener("change", function() {
 
 stopButton.addEventListener("click", function() {
   if (!isSorting) {
+    sortStatus.textContent = "No active sort";
     return;
   }
   cancelRequested = true;
