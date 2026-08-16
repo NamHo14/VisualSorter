@@ -13,6 +13,7 @@ ul = document.getElementById('ArrayBars')
 myArray = []
 let audioCtx=null
 let mul = 4
+const MAX_BAR_HEIGHT_PERCENT = 92
 
 const algorithmInfo = {
   "1": { name: "Bubble Sort", complexity: "Time: O(n^2) | Space: O(1)" },
@@ -68,9 +69,9 @@ function updateBars(Array, comparing1= -1, comparing2 = -1) {
       li.style.border = "1px solid White";
     }
 
-    // Normalize values so 100 always maps to full chart height.
+    // Normalize values so 100 maps to a capped in-chart height.
     const value = Math.max(0, Math.min(Array[i], 100));
-    li.style.height = (value / 100) * 100 + "%";
+    li.style.height = (value / 100) * MAX_BAR_HEIGHT_PERCENT + "%";
     ul.appendChild(li)
   }
 }
