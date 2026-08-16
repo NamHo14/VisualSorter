@@ -1,7 +1,7 @@
 const slider = document.getElementById("myRange");
 const slider2 = document.getElementById("myRange2");
 const dropDownValue = document.getElementById("dropDownValue");
-const stopButton = document.getElementById("stopButton");
+let stopButton = document.getElementById("stopButton");
 const sliderValue = document.getElementById("sliderValue");
 const sliderValue2 = document.getElementById("sliderValue2");
 const algoName = document.getElementById("algoName");
@@ -19,8 +19,23 @@ let cancelRequested = false
 let isSorting = false
 const SORT_CANCELLED_ERROR = "SORT_CANCELLED"
 
+// Failsafe for stale cached HTML: ensure STOP exists so script never crashes.
+if (!stopButton) {
+  const sortButtonParent = document.getElementById("sortButton")?.parentElement;
+  if (sortButtonParent) {
+    stopButton = document.createElement("button");
+    stopButton.id = "stopButton";
+    stopButton.className = "button";
+    stopButton.textContent = "STOP";
+    sortButtonParent.appendChild(stopButton);
+  }
+}
+
 // Keep STOP always clickable; cancellation logic decides whether it does anything.
-stopButton.disabled = false;
+if (stopButton) {
+  stopButton.type = "button";
+  stopButton.disabled = false;
+}
 
 const algorithmInfo = {
   "1": { name: "Bubble Sort", complexity: "Time: O(n^2) | Space: O(1)" },
@@ -43,7 +58,9 @@ function setSortingUIState(sorting) {
   document.getElementById("GenerateNewRandomArray").disabled = sorting;
   document.getElementById("sortButton").disabled = sorting;
   document.getElementById("dropDownValue").disabled = sorting;
-  stopButton.disabled = false;
+  if (stopButton) {
+    stopButton.disabled = false;
+  }
 }
 
 function playSound(frequency) {
@@ -110,14 +127,16 @@ dropDownValue.addEventListener("change", function() {
   sortStatus.textContent = "Ready";
 });
 
-stopButton.addEventListener("click", function() {
-  if (!isSorting) {
-    sortStatus.textContent = "No active sort";
-    return;
-  }
-  cancelRequested = true;
-  sortStatus.textContent = "Stopping...";
-});
+if (stopButton) {
+  stopButton.addEventListener("click", function() {
+    if (!isSorting) {
+      sortStatus.textContent = "No active sort";
+      return;
+    }
+    cancelRequested = true;
+    sortStatus.textContent = "Stopping...";
+  });
+}
 
 //to be able to grab the value of the size slider
 slider.addEventListener("input", function() {
