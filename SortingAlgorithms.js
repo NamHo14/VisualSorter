@@ -26,11 +26,6 @@ async function BubbleSort(Array){
     }
   }
   updateBars(Array);
-
-  document.getElementById("myRange").disabled = false;
-  document.getElementById("GenerateNewRandomArray").disabled = false;
-  document.getElementById("sortButton").disabled = false;
-  document.getElementById("dropDownValue").disabled = false;
   return Array;
 }
 
@@ -64,10 +59,6 @@ async function SelectionSort(Array){
     await pause(speed)
   }
   updateBars(Array);
-  document.getElementById("myRange").disabled = false;
-  document.getElementById("GenerateNewRandomArray").disabled = false;
-  document.getElementById("sortButton").disabled = false;
-  document.getElementById("dropDownValue").disabled = false;
   return Array;
 }
 
@@ -97,10 +88,6 @@ async function InsertionSort(Array){
     await pause(speed);
   }
   updateBars(Array);
-  document.getElementById("myRange").disabled = false;
-  document.getElementById("GenerateNewRandomArray").disabled = false;
-  document.getElementById("sortButton").disabled = false;
-  document.getElementById("dropDownValue").disabled = false;
   return Array;
 }
 
@@ -109,10 +96,6 @@ async function QuickSort(Array,start = 0, fullArray=myArrayRandom, isTopLevel = 
   if(Array.length<2){
     if (isTopLevel){
       updateBars(fullArray);
-      document.getElementById("myRange").disabled = false;
-      document.getElementById("GenerateNewRandomArray").disabled = false;
-      document.getElementById("sortButton").disabled = false;
-      document.getElementById("dropDownValue").disabled = false;
     }
     return Array
   }
@@ -153,10 +136,6 @@ async function QuickSort(Array,start = 0, fullArray=myArrayRandom, isTopLevel = 
   }
   if (isTopLevel){
     updateBars(fullArray);
-    document.getElementById("myRange").disabled = false;
-    document.getElementById("GenerateNewRandomArray").disabled = false;
-    document.getElementById("sortButton").disabled = false;
-    document.getElementById("dropDownValue").disabled = false;
   }
   return Array;
 }
@@ -193,10 +172,6 @@ async function ShellSort(Array){
     Gap = Math.floor(Gap/2);
   }
   updateBars(Array);
-  document.getElementById("myRange").disabled = false;
-  document.getElementById("GenerateNewRandomArray").disabled = false;
-  document.getElementById("sortButton").disabled = false;
-  document.getElementById("dropDownValue").disabled = false;
   return Array;
 }
 
@@ -204,10 +179,6 @@ async function ShellSort(Array){
 async function MergeSort(Array){
   if (Array.length < 2){
     updateBars(Array);
-    document.getElementById("myRange").disabled = false;
-    document.getElementById("GenerateNewRandomArray").disabled = false;
-    document.getElementById("sortButton").disabled = false;
-    document.getElementById("dropDownValue").disabled = false;
     return Array;
   }
 
@@ -266,10 +237,6 @@ async function MergeSort(Array){
 
   await mergeSortRec(0, Array.length - 1);
   updateBars(Array);
-  document.getElementById("myRange").disabled = false;
-  document.getElementById("GenerateNewRandomArray").disabled = false;
-  document.getElementById("sortButton").disabled = false;
-  document.getElementById("dropDownValue").disabled = false;
   return Array;
 }
 
@@ -328,9 +295,5 @@ async function HeapSort(Array){
   }
 
   updateBars(Array);
-  document.getElementById("myRange").disabled = false;
-  document.getElementById("GenerateNewRandomArray").disabled = false;
-  document.getElementById("sortButton").disabled = false;
-  document.getElementById("dropDownValue").disabled = false;
   return Array;
 }

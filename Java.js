@@ -1,6 +1,7 @@
 const slider = document.getElementById("myRange");
 const slider2 = document.getElementById("myRange2");
 const dropDownValue = document.getElementById("dropDownValue");
+const stopButton = document.getElementById("stopButton");
 const sliderValue = document.getElementById("sliderValue");
 const sliderValue2 = document.getElementById("sliderValue2");
 const algoName = document.getElementById("algoName");
@@ -9,11 +10,13 @@ const sortStatus = document.getElementById("sortStatus");
 var audio = new Audio("")
 let size = 0;
 let speed =100;
-ul = document.getElementById('ArrayBars')
-myArray = []
+const ul = document.getElementById('ArrayBars')
+let myArray = []
 let audioCtx=null
 let mul = 4
 const MAX_BAR_HEIGHT_PERCENT = 92
+let cancelRequested = false
+const SORT_CANCELLED_ERROR = "SORT_CANCELLED"
 
 const algorithmInfo = {
   "1": { name: "Bubble Sort", complexity: "Time: O(n^2) | Space: O(1)" },
@@ -29,6 +32,14 @@ function refreshAlgorithmMeta() {
   const selected = algorithmInfo[dropDownValue.value] || algorithmInfo["1"];
   algoName.textContent = selected.name;
   algoComplexity.textContent = selected.complexity;
+}
+
+function setSortingUIState(isSorting) {
+  document.getElementById("myRange").disabled = isSorting;
+  document.getElementById("GenerateNewRandomArray").disabled = isSorting;
+  document.getElementById("sortButton").disabled = isSorting;
+  document.getElementById("dropDownValue").disabled = isSorting;
+  stopButton.disabled = !isSorting;
 }
 
 function playSound(frequency) {
@@ -47,7 +58,7 @@ function playSound(frequency) {
   osc.stop(audioCtx.currentTime+dur);
 }
 
-myArrayOrginal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+const myArrayOrginal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
   11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
   21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
   31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
@@ -57,7 +68,7 @@ myArrayOrginal = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
   71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
   81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
   91, 92, 93, 94, 95, 96, 97, 98, 99, 100]
-myArrayRandom = []
+let myArrayRandom = []
 
 //to draw the bars, visualize the sorting
 function updateBars(Array, comparing1= -1, comparing2 = -1) {
@@ -77,7 +88,13 @@ function updateBars(Array, comparing1= -1, comparing2 = -1) {
 }
 //to slow down the the sorting to be able to see it
 async function pause(ms){
+  if (cancelRequested) {
+    throw new Error(SORT_CANCELLED_ERROR);
+  }
   await new Promise(resolve => setTimeout(resolve, ms));
+  if (cancelRequested) {
+    throw new Error(SORT_CANCELLED_ERROR);
+  }
 }
 
 //Assigning the number to arrayNumbers
@@ -89,10 +106,15 @@ dropDownValue.addEventListener("change", function() {
   sortStatus.textContent = "Ready";
 });
 
+stopButton.addEventListener("click", function() {
+  cancelRequested = true;
+  sortStatus.textContent = "Stopping...";
+});
+
 //to be able to grab the value of the size slider
 slider.addEventListener("input", function() {
   sliderValue.innerHTML = slider.value;
-  sliderValueInt = parseInt(slider.value);
+  const sliderValueInt = parseInt(slider.value);
 
   myArray = []
   for(var i=0; i<sliderValueInt; i++){
@@ -132,50 +154,57 @@ document.getElementById("sortButton").addEventListener("click", async function()
     return;
   }
 
-  document.getElementById("myRange").disabled = true;
-  document.getElementById("GenerateNewRandomArray").disabled = true;
-  document.getElementById("sortButton").disabled = true;
-  document.getElementById("dropDownValue").disabled = true;
+  cancelRequested = false;
+  setSortingUIState(true);
   sortStatus.textContent = "Sorting...";
 
-  if (dropDownValue.value== "1"){
-    myArrayRandom = await BubbleSort(myArrayRandom)
-    document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
+  try {
+    if (dropDownValue.value== "1"){
+      myArrayRandom = await BubbleSort(myArrayRandom)
+    }
+
+    if (dropDownValue.value== "2"){
+      myArrayRandom = await SelectionSort(myArrayRandom)
+    }
+
+
+    if (dropDownValue.value== "3"){
+      myArrayRandom = await InsertionSort(myArrayRandom)
+    }
+
+    if (dropDownValue.value== "4"){
+      myArrayRandom = await QuickSort(myArrayRandom)
+    }
+
+
+    if (dropDownValue.value== "5"){
+      myArrayRandom = await ShellSort(myArrayRandom)
+    }
+
+    if (dropDownValue.value== "6"){
+      myArrayRandom = await MergeSort(myArrayRandom)
+    }
+
+    if (dropDownValue.value== "7"){
+      myArrayRandom = await HeapSort(myArrayRandom)
+    }
+
+    sortStatus.textContent = "Done";
   }
-
-  if (dropDownValue.value== "2"){
-    myArrayRandom = await SelectionSort(myArrayRandom)
-    document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
+  catch (error) {
+    if (error && error.message === SORT_CANCELLED_ERROR) {
+      sortStatus.textContent = "Stopped";
+    }
+    else {
+      sortStatus.textContent = "Error";
+      console.error(error);
+    }
   }
-
-
-  if (dropDownValue.value== "3"){
-    myArrayRandom = await InsertionSort(myArrayRandom)
+  finally {
     document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
+    setSortingUIState(false);
+    cancelRequested = false;
   }
-
-  if (dropDownValue.value== "4"){
-    myArrayRandom = await QuickSort(myArrayRandom)
-    document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
-  }
-
-
-  if (dropDownValue.value== "5"){
-    myArrayRandom = await ShellSort(myArrayRandom)
-    document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
-  }
-
-  if (dropDownValue.value== "6"){
-    myArrayRandom = await MergeSort(myArrayRandom)
-    document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
-  }
-
-  if (dropDownValue.value== "7"){
-    myArrayRandom = await HeapSort(myArrayRandom)
-    document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
-  }
-
-  sortStatus.textContent = "Done";
 
 
 })

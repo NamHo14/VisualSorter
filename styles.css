@@ -92,6 +92,17 @@ body {
 
 .SortButton {
     margin-top: 0.85rem;
+    display: flex;
+    gap: 0.7rem;
+}
+
+#stopButton {
+    border-color: #ff7f7f;
+    color: #ffdede;
+}
+
+#stopButton:hover {
+    background: #4d0018;
 }
 
 .slider {
@@ -162,7 +173,7 @@ body {
     overflow: hidden;
 }
 
-li {
+#ArrayBars li {
     display: inline-block;
     background-color: #39FF14;
     flex: 1 1 0;
