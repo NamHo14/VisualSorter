@@ -68,8 +68,9 @@ function updateBars(Array, comparing1= -1, comparing2 = -1) {
       li.style.border = "1px solid White";
     }
 
-    // Keep bars within the chart area regardless of screen size.
-    li.style.height = Array[i] + "%";
+    // Clamp each bar to [0,100] so bars always remain inside the chart viewport.
+    const boundedHeight = Math.max(0, Math.min(Array[i], 100));
+    li.style.height = boundedHeight + "%";
     ul.appendChild(li)
   }
 }
