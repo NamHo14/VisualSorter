@@ -16,6 +16,7 @@ let audioCtx=null
 let mul = 4
 const MAX_BAR_HEIGHT_PERCENT = 92
 let cancelRequested = false
+let isSorting = false
 const SORT_CANCELLED_ERROR = "SORT_CANCELLED"
 
 const algorithmInfo = {
@@ -34,12 +35,11 @@ function refreshAlgorithmMeta() {
   algoComplexity.textContent = selected.complexity;
 }
 
-function setSortingUIState(isSorting) {
-  document.getElementById("myRange").disabled = isSorting;
-  document.getElementById("GenerateNewRandomArray").disabled = isSorting;
-  document.getElementById("sortButton").disabled = isSorting;
-  document.getElementById("dropDownValue").disabled = isSorting;
-  stopButton.disabled = !isSorting;
+function setSortingUIState(sorting) {
+  document.getElementById("myRange").disabled = sorting;
+  document.getElementById("GenerateNewRandomArray").disabled = sorting;
+  document.getElementById("sortButton").disabled = sorting;
+  document.getElementById("dropDownValue").disabled = sorting;
 }
 
 function playSound(frequency) {
@@ -107,6 +107,9 @@ dropDownValue.addEventListener("change", function() {
 });
 
 stopButton.addEventListener("click", function() {
+  if (!isSorting) {
+    return;
+  }
   cancelRequested = true;
   sortStatus.textContent = "Stopping...";
 });
@@ -155,6 +158,7 @@ document.getElementById("sortButton").addEventListener("click", async function()
   }
 
   cancelRequested = false;
+  isSorting = true;
   setSortingUIState(true);
   sortStatus.textContent = "Sorting...";
 
@@ -202,6 +206,7 @@ document.getElementById("sortButton").addEventListener("click", async function()
   }
   finally {
     document.getElementById("ArrayNumbers").innerHTML = myArrayRandom.join(" ");
+    isSorting = false;
     setSortingUIState(false);
     cancelRequested = false;
   }

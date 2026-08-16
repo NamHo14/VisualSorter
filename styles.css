@@ -96,15 +96,6 @@ body {
     gap: 0.7rem;
 }
 
-#stopButton {
-    border-color: #ff7f7f;
-    color: #ffdede;
-}
-
-#stopButton:hover {
-    background: #4d0018;
-}
-
 .slider {
     width: 100%;
     accent-color: var(--accent);
