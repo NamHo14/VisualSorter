@@ -68,7 +68,8 @@ function updateBars(Array, comparing1= -1, comparing2 = -1) {
       li.style.border = "1px solid White";
     }
 
-    li.style.height = (Array[i]*30)/100 + "vw";
+    // Keep bars within the chart area regardless of screen size.
+    li.style.height = Array[i] + "%";
     ul.appendChild(li)
   }
 }
